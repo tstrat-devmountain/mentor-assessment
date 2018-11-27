@@ -1,0 +1,16 @@
+.listDisplayContainer {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.listDisplayContainer .task {
+    margin-bottom: 20px;
+}
+
+.listDisplayContainer .task-form {
+    display:flex;
+    justify-content: center;
+    align-items: center;
+}
