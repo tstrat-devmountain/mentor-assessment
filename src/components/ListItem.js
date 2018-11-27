@@ -1,5 +1,5 @@
 import React from 'react';
-import { strikethrough } from 'ansi-colors';
+import { Link } from 'react-router-dom';
 
 const ListItem = (props) => {
     const { task } = props;
@@ -14,7 +14,7 @@ const ListItem = (props) => {
     console.log(task.completed);
     return (
         <div className="task" style={task.completed ? {textDecoration: 'line-through'} : {}}>
-            <h1>{task.title}</h1>
+            <Link to={`/${task.id}`}><h1>{task.title}</h1></Link>
             <p>{task.description}</p>
             <button style={c} onClick={() => task.completed ? null : props.completeFn(task.id) }>Complete</button>
             <button onClick={() => props.removeTask(task.id)}>Delete</button>

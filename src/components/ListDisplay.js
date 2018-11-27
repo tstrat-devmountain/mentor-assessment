@@ -2,7 +2,7 @@ import React, { Component } from "react"
 import { connect } from 'react-redux';
 import { getList, setList } from '../redux/reducer';
 import axios from 'axios';
-
+import { Link } from 'react-router-dom';
 import ListItem from './ListItem';
 
 import './listDisplay.css';
@@ -63,7 +63,9 @@ class ListDisplay extends Component {
             return <></>;
         }
         
-        const taskList = tasks.map(task => <ListItem key={task.id} task={task} completeFn={this.markComplete} removeTask={this.removeTask}/>);
+        const taskList = tasks.map(task => 
+            <ListItem key={task.id} task={task} completeFn={this.markComplete} removeTask={this.removeTask}/>
+        );
             
         return (
             <div className="listDisplayContainer">

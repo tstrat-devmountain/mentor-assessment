@@ -16,6 +16,19 @@ class ItemDisplay extends Component {
 
     componentDidMount() {
         // get from params with axios so that it isn't redux dependant
+
+        const index = this.props.tasks.findIndex(task => task.id === parseInt(this.props.match.params.id));
+        const displayItem = this.props.tasks[index];
+        console.log('INDEX', index);
+        console.log('DISPLAY ITEM', displayItem);
+
+        this.setState({
+            title: displayItem.title,
+            description: displayItem.description,
+            completed: displayItem.completed,
+            oldItem: displayItem
+        })
+
     }
 
     reset = () => {
@@ -27,16 +40,22 @@ class ItemDisplay extends Component {
         });
     }
     render() {
-        const { title, description, completed } = this.props;
+        const { title, description, completed } = this.state;
         return (
             <div className="item-display">
                 <input value={title} onChange={e => this.setState({ title: e.target.value })} />
                 <button onClick={e=> this.setState({ completed: !completed })}>{ completed ? 'Un-Complete' : 'Complete'}</button>
                 <input value={description} onChange={e => this.setState({ description: e.target.value })} />
-                
+                <button>Save</button>
             </div>
         );
     }
 }
 
-export default connect(null, { updateTask })(ItemDisplay);
+const mapStateToProps = (state) => {
+    return {
+        tasks: state.tasks
+    }
+}
+
+export default connect(mapStateToProps, { updateTask })(ItemDisplay);
