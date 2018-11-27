@@ -18,42 +18,38 @@ class ListDisplay extends Component {
     
     componentDidMount() {
         // do axios here to initialize redux
-        this.props.setList([{"id":0,"title":"walk the dog","description":"yo dawg!","completed":false},{"id":1,"title":"yo Dawg!","description":"snoop dog","completed":false}]);
+        this.props.getList(
+            axios.get('https://practiceapi.devmountain.com/api/tasks')
+            .then(res => res.data)
+        );
     }
 
     markComplete = (id) => {
-        console.log('update');
-        const { tasks } = this.props;
-        const newList = tasks.slice();
-        newList[newList.findIndex(task => task.id === id)].completed = true;
-        
-        this.props.setList(newList);
+        axios.put(`https://practiceapi.devmountain.com/api/tasks/${id}`)
+        .then( response => {
+            this.props.setList(response.data);
+        })
     }
 
     addTask = () => {
         // axios
-
-        const { tasks } = this.props;
-        const newList = tasks.slice();
         const { title } = this.state;
-        newList.push({
-            id: Math.random() * 999,
-            title,
-            description: '',
-            completed: false
-        })
-        this.props.setList(newList);
-        this.setState({ title: '' }); // reset input field
+        if (title) {
+            axios.post('https://practiceapi.devmountain.com/api/tasks', { title })
+            .then( response => {
+                this.props.setList(response.data);
+                this.setState({ title: '' }); // reset input field
+            })
+        }
+        
+        
     }
 
     removeTask = (id) => {
-        console.log(id);
-
-        const { tasks } = this.props;
-        const newList = tasks.slice();
-        newList.splice(newList.findIndex(task=> task.id === id), 1);
-        this.props.setList(newList);
-        this.setState({ title: '' }); // reset input field to regen list?
+        axios.delete(`https://practiceapi.devmountain.com/api/tasks/${id}`)
+        .then( response => {
+            this.props.setList(response.data);
+        });
     }
 
     render() {
@@ -84,4 +80,4 @@ const mapStateToProps = (state) => {
         tasks: state.tasks
     }
 }
-export default connect(mapStateToProps, { setList })(ListDisplay);
+export default connect(mapStateToProps, { getList, setList })(ListDisplay);

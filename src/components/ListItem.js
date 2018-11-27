@@ -11,7 +11,6 @@ const ListItem = (props) => {
         } 
         : { }
 
-    console.log(task.completed);
     return (
         <div className="task" style={task.completed ? {textDecoration: 'line-through'} : {}}>
             <Link to={`/${task.id}`}><h1>{task.title}</h1></Link>

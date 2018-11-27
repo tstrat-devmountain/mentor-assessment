@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { updateTask } from '../redux/reducer';
+import { setList } from '../redux/reducer';
+import axios from 'axios';
 
 class ItemDisplay extends Component {
     constructor(props) {
@@ -19,8 +20,6 @@ class ItemDisplay extends Component {
 
         const index = this.props.tasks.findIndex(task => task.id === parseInt(this.props.match.params.id));
         const displayItem = this.props.tasks[index];
-        console.log('INDEX', index);
-        console.log('DISPLAY ITEM', displayItem);
 
         this.setState({
             title: displayItem.title,
@@ -39,6 +38,35 @@ class ItemDisplay extends Component {
             completed: oldItem.completed
         });
     }
+
+    submit = () => {
+        const { title, description, completed, oldItem } = this.state;
+        const id = oldItem.id;
+        if (id) {
+            const payload = {
+                title: title || oldItem.title,
+                description: description || oldItem.description,
+                completed,
+            }
+            axios.patch(`https://practiceapi.devmountain.com/api/tasks/${id}`, payload)
+            .then( response => {
+                this.props.setList(response.data);
+                this.clearFields();
+                this.props.history.push('/');
+            })
+            
+        }
+    }
+
+    clearFields = () => {
+        const { oldItem } = this.state;
+        this.setState({
+            title: oldItem.title || '',
+            description: oldItem.description || '',
+            completed: oldItem.completed || false
+        })
+    }
+
     render() {
         const { title, description, completed } = this.state;
         return (
@@ -46,7 +74,9 @@ class ItemDisplay extends Component {
                 <input value={title} onChange={e => this.setState({ title: e.target.value })} />
                 <button onClick={e=> this.setState({ completed: !completed })}>{ completed ? 'Un-Complete' : 'Complete'}</button>
                 <input value={description} onChange={e => this.setState({ description: e.target.value })} />
-                <button>Save</button>
+                <button onClick={this.clearFields}>Reset</button>
+                <button>Delete</button>
+                <button onClick={this.submit}>Save</button>
             </div>
         );
     }
@@ -58,4 +88,4 @@ const mapStateToProps = (state) => {
     }
 }
 
-export default connect(mapStateToProps, { updateTask })(ItemDisplay);
+export default connect(mapStateToProps, { setList })(ItemDisplay);
