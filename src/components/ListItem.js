@@ -17,6 +17,8 @@ const ListItem = (props) => {
             <h1>{task.title}</h1>
             <p>{task.description}</p>
             <button style={c} onClick={() => task.completed ? null : props.completeFn(task.id) }>Complete</button>
+            <button onClick={() => props.removeTask(task.id)}>Delete</button>
+
         </div>
     );
 };
