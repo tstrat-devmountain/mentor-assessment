@@ -17,19 +17,30 @@ class ItemDisplay extends Component {
 
     componentDidMount() {
         // get from params with axios so that it isn't redux dependant
+        if (this.props.tasks.length) {
+            const index = this.props.tasks.findIndex(task => task.id === parseInt(this.props.match.params.id));
+            const displayItem = this.props.tasks[index];
+            this.setDisplayItem(displayItem);
+        
+        } else {
+            axios.get('https://practiceapi.devmountain.com/api/tasks')
+            .then( response => {
+                this.props.setList(response.data); // fill in redux in case its not there already
+                const index = this.props.tasks.findIndex(task => task.id === parseInt(this.props.match.params.id));
+                const displayItem = this.props.tasks[index];
+                this.setDisplayItem(displayItem);
+            })
+        }
+    }
 
-        const index = this.props.tasks.findIndex(task => task.id === parseInt(this.props.match.params.id));
-        const displayItem = this.props.tasks[index];
-
+    setDisplayItem = (displayItem) => {
         this.setState({
             title: displayItem.title,
             description: displayItem.description,
             completed: displayItem.completed,
             oldItem: displayItem
         })
-
     }
-
     reset = () => {
         const { oldItem } = this.state;
         this.setState({
@@ -67,6 +78,14 @@ class ItemDisplay extends Component {
         })
     }
 
+    removeTask = (id) => {
+        axios.delete(`https://practiceapi.devmountain.com/api/tasks/${id}`)
+        .then( response => {
+            this.props.setList(response.data);
+            this.props.history.push('/');
+        });
+    }
+
     render() {
         const { title, description, completed } = this.state;
         return (
@@ -75,7 +94,7 @@ class ItemDisplay extends Component {
                 <button onClick={e=> this.setState({ completed: !completed })}>{ completed ? 'Un-Complete' : 'Complete'}</button>
                 <input value={description} onChange={e => this.setState({ description: e.target.value })} />
                 <button onClick={this.clearFields}>Reset</button>
-                <button>Delete</button>
+                <button onClick={this.removeTask}>Delete</button>
                 <button onClick={this.submit}>Save</button>
             </div>
         );

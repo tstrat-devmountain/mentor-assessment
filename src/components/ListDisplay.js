@@ -2,7 +2,6 @@ import React, { Component } from "react"
 import { connect } from 'react-redux';
 import { getList, setList } from '../redux/reducer';
 import axios from 'axios';
-import { Link } from 'react-router-dom';
 import ListItem from './ListItem';
 
 import './listDisplay.css';
