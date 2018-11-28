@@ -78,8 +78,8 @@ class ItemDisplay extends Component {
         })
     }
 
-    removeTask = (id) => {
-        axios.delete(`https://practiceapi.devmountain.com/api/tasks/${id}`)
+    removeTask = () => {
+        axios.delete(`https://practiceapi.devmountain.com/api/tasks/${this.state.oldItem.id}`)
         .then( response => {
             this.props.setList(response.data);
             this.props.history.push('/');
@@ -90,12 +90,16 @@ class ItemDisplay extends Component {
         const { title, description, completed } = this.state;
         return (
             <div className="item-display">
+                <div>
                 <input value={title} onChange={e => this.setState({ title: e.target.value })} />
                 <button onClick={e=> this.setState({ completed: !completed })}>{ completed ? 'Un-Complete' : 'Complete'}</button>
-                <input value={description} onChange={e => this.setState({ description: e.target.value })} />
+                </div>
+                <div>
+                <input className="textbox" value={description} onChange={e => this.setState({ description: e.target.value })} />
                 <button onClick={this.clearFields}>Reset</button>
                 <button onClick={this.removeTask}>Delete</button>
                 <button onClick={this.submit}>Save</button>
+                </div>
             </div>
         );
     }
