@@ -54,8 +54,8 @@ class ListDisplay extends Component {
     render() {
         // map list to display
         const { tasks } = this.props;
-        if (!tasks.length) {
-            return <></>;
+        if (this.props.loading) {
+            return <div>Loading Tasks</div>;
         }
         
         const taskList = tasks.map(task => 
@@ -76,7 +76,8 @@ class ListDisplay extends Component {
 
 const mapStateToProps = (state) => {
     return {
-        tasks: state.tasks
+        tasks: state.tasks,
+        loading: state.loading
     }
 }
 export default connect(mapStateToProps, { getList, setList })(ListDisplay);

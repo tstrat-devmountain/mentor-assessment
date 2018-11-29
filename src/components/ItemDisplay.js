@@ -53,7 +53,9 @@ class ItemDisplay extends Component {
     submit = () => {
         const { title, description, completed, oldItem } = this.state;
         const id = oldItem.id;
-        if (id) {
+        console.log('Item Display:',oldItem);
+
+        if (id || id === 0) {
             const payload = {
                 title: title || oldItem.title,
                 description: description || oldItem.description,
