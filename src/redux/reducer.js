@@ -34,32 +34,16 @@ export default function reducer (state = INITIAL_STATE, action) {
     switch (action.type) {
         
         case GET_TASKS_PENDING:
-            return {...state, loading: true};
-        
-        case GET_TASKS_FULFILLED:
-            return { ...state, loading: false, tasks: action.payload }
-
-        case ADD_TASK_PENDING:
-            return { ...state, loading: true }
-
-        case ADD_TASK_FULFILLED:
-            return { ...state, loading: false, tasks: action.payload }
-
+        case ADD_TASK_PENDING:  
         case COMPLETE_TASK_PENDING:
-            return {...state, loading: true};
-        
-        case COMPLETE_TASK_FULFILLED:
-            return {...state, loading: false, tasks: action.payload }
-            
         case UPDATE_TASK_PENDING:
-            return {...state, loading: true};
-        
-        case UPDATE_TASK_FULFILLED:
-            return {...state, loading: false, tasks: action.payload }
-            
         case REMOVE_TASK_PENDING:
             return {...state, loading: true};
         
+        case GET_TASKS_FULFILLED:
+        case ADD_TASK_FULFILLED:
+        case COMPLETE_TASK_FULFILLED:
+        case UPDATE_TASK_FULFILLED:
         case REMOVE_TASK_FULFILLED:
             return {...state, loading: false, tasks: action.payload }
         

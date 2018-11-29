@@ -1,7 +1,10 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { setList, remove, update } from '../redux/reducer';
+import { Link } from 'react-router-dom'
 import axios from 'axios';
+
+import './itemDisplay.css';
 
 class ItemDisplay extends Component {
     constructor(props) {
@@ -26,9 +29,8 @@ class ItemDisplay extends Component {
             axios.get('https://practiceapi.devmountain.com/api/tasks')
             .then( response => {
                 this.props.setList(response.data); // fill in redux in case its not there already
-                const index = this.props.tasks.findIndex(task => task.id === parseInt(this.props.match.params.id));
-                
-                const displayItem = index > 0 ? this.props.tasks[index] : {};
+                const index = response.data.findIndex(task => task.id === parseInt(this.props.match.params.id));
+                const displayItem = index >= 0 ? response.data[index] : {};
                 this.setDisplayItem(displayItem);
             })
         }
@@ -86,15 +88,23 @@ class ItemDisplay extends Component {
         const { title, description, completed } = this.state;
         return (
             <div className="item-display">
-                <div>
-                <input value={title} onChange={e => this.setState({ title: e.target.value })} />
-                <button onClick={e=> this.setState({ completed: !completed })}>{ completed ? 'Un-Complete' : 'Complete'}</button>
+                <Link to='/'>◀ Back to Tasks</Link>
+                <h1>Task:</h1>
+                <div className="title">
+                    <input value={title} onChange={e => this.setState({ title: e.target.value })} />
+                    <button onClick={e=> this.setState({ completed: !completed })}>{ completed ? 'Un-Complete' : 'Complete'}</button>
                 </div>
-                <div>
-                <input className="textbox" value={description} onChange={e => this.setState({ description: e.target.value })} />
-                <button onClick={this.clearFields}>Reset</button>
+                <h1>Description:</h1>
+                <textarea type="text" className="textbox" value={description} 
+                    onChange={e => {
+                        this.setState({ description: e.target.value })
+                        e.target.style.height = `${e.target.scroll.height + 3}px`;
+                    }} 
+                />
+                <div className="buttons">
+                <button className="reset" onClick={this.clearFields}>Reset</button>
                 <button onClick={this.removeTask}>Delete</button>
-                <button onClick={this.submit}>Save</button>
+                <button className="save" onClick={this.submit}>Save</button>
                 </div>
             </div>
         );

@@ -1,0 +1,81 @@
+.item-display {
+    width: 100%;
+    background: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.item-display > * {
+    margin: 10px 0;
+}
+
+.item-display a {
+    text-decoration: none;
+    color: black;
+    align-self: flex-start;
+    margin: 10px;
+}
+
+.item-display h1 {
+    text-align: left;
+    width: 100%;
+    color: rgb(0, 204, 255);
+    font-weight: 700;
+    font-size: 15px;
+    padding-left: 15px;
+}
+
+.item-display .title {
+    width: 90%;
+}
+
+.item-display input:focus, .item-display textarea:focus {
+    outline: none;
+ 
+}
+
+.item-display input, .item-display textarea {
+    border:none;
+    border-bottom:1px solid rgb(30, 110, 163);
+    font-size: 20px;
+
+}
+
+.textbox {
+    resize: none;
+    font-size: 20px;
+    line-height: 20px;
+    width:90%;
+   
+}
+.item-display button {
+    width: 25%;
+    border:none;
+    background:rgb(199, 199, 199);
+}
+.item-display input {
+    width: 75%;
+}
+
+.item-display .buttons {
+    display:flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.item-display .buttons > * {
+    margin: 10px;
+    width: fit-content;
+    height: fit-content;
+    padding: 5px 20px
+}
+
+.item-display .buttons .reset{
+    background-color: rgb(77, 166, 250);
+    color: white;
+}
+.item-display .buttons .save{
+    background-color: rgb(221, 77, 77);
+    color: white;
+}

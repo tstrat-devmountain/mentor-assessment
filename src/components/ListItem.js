@@ -14,9 +14,11 @@ const ListItem = (props) => {
     return (
         <div className="task" style={task.completed ? {textDecoration: 'line-through'} : {}}>
             <Link to={`/${task.id}`}><h1>{task.title}</h1></Link>
-            <p>{task.description}</p>
+            {/* <p>{task.description}</p> */}
+            <div>
             <button style={c} onClick={() => task.completed ? null : props.completeFn(task.id) }>Complete</button>
-            <button onClick={() => props.removeTask(task.id)}>Delete</button>
+            <i className="fas fa-times" onClick={() => props.removeTask(task.id)}></i>
+            </div>
 
         </div>
     );

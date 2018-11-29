@@ -49,12 +49,14 @@ class ListDisplay extends Component {
         return (
             <div className="listDisplayContainer">
                 <div className="task-form">
-                    <h1>Add New Task:</h1>
+                    <h1>TO-DO:</h1>
                     <input value={this.state.title} onChange={e => this.setState({ title: e.target.value })} />
-                    <button onClick={this.addTask}>Add Task</button>
+                    <button onClick={this.addTask}>Add New Task</button>
+                    <div className={`loading ${loading ? "show":"hide"}`}>{loading? 'Loading...' : ''}</div>
                 </div>
-                {loading ? <div>Loading...</div> : null}
-                {taskList}
+                <div className='task-list'>
+                    {taskList}
+                </div>
             </div>
     )}
 }

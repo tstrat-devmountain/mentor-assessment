@@ -130,3 +130,7 @@ html {
 * {
 	box-sizing: inherit;
 }
+
+button:focus{
+	outline: none;
+}
