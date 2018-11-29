@@ -4,7 +4,7 @@ Full Spec Requirements: [Requirements](./REQUIREMENTS.md)
 
 ## Simple List with Redux-Promise-Middleware
 
-**Problem**: Promises in redux are tricky
+**Problem**: Promises in redux are tricky with their async timings
 
 **Solution**:  Use REDUX - PROMISE - MIDDLEWARE!!!!
 
