@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { setList } from '../redux/reducer';
+import { setList, remove, update } from '../redux/reducer';
 import axios from 'axios';
 
 class ItemDisplay extends Component {
@@ -27,11 +27,13 @@ class ItemDisplay extends Component {
             .then( response => {
                 this.props.setList(response.data); // fill in redux in case its not there already
                 const index = this.props.tasks.findIndex(task => task.id === parseInt(this.props.match.params.id));
-                const displayItem = this.props.tasks[index];
+                
+                const displayItem = index > 0 ? this.props.tasks[index] : {};
                 this.setDisplayItem(displayItem);
             })
         }
     }
+
 
     setDisplayItem = (displayItem) => {
         this.setState({
@@ -53,7 +55,6 @@ class ItemDisplay extends Component {
     submit = () => {
         const { title, description, completed, oldItem } = this.state;
         const id = oldItem.id;
-        console.log('Item Display:',oldItem);
 
         if (id || id === 0) {
             const payload = {
@@ -61,13 +62,9 @@ class ItemDisplay extends Component {
                 description: description || oldItem.description,
                 completed,
             }
-            axios.patch(`https://practiceapi.devmountain.com/api/tasks/${id}`, payload)
-            .then( response => {
-                this.props.setList(response.data);
-                this.clearFields();
-                this.props.history.push('/');
-            })
-            
+            this.props.update(id, payload);
+            this.clearFields();
+            this.props.history.push('/');
         }
     }
 
@@ -81,11 +78,8 @@ class ItemDisplay extends Component {
     }
 
     removeTask = () => {
-        axios.delete(`https://practiceapi.devmountain.com/api/tasks/${this.state.oldItem.id}`)
-        .then( response => {
-            this.props.setList(response.data);
-            this.props.history.push('/');
-        });
+        this.props.remove(this.state.oldItem.id);
+        this.props.history.push('/');
     }
 
     render() {
@@ -113,4 +107,4 @@ const mapStateToProps = (state) => {
     }
 }
 
-export default connect(mapStateToProps, { setList })(ItemDisplay);
+export default connect(mapStateToProps, { setList, remove, update })(ItemDisplay);
